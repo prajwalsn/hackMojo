@@ -20,6 +20,6 @@ def get_connection():
 
 def get_movie_names():
     cursor = get_connection()
-    cursor.execute("Select * from test")
+    cursor.execute("Select title from Video")
     result = cursor.fetchall()
     return json.dumps(result)
