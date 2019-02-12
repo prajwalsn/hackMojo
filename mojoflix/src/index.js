@@ -33,8 +33,16 @@ class Container extends React.Component
             videos : [],
         }
         
-        axios.get("/get_movie_names").then(data => this.setState({videoPacks : data.data})).catch(
-            (error) => {console.log(JSON.stringify(error))});
+        axios.get("/get_movie_names").
+            then(data => 
+                {
+                    var values = data.data.map((x) => x.title);
+                    this.setState({videoPacks : values} )
+                    console.log(data.data)}
+                )
+                .catch((error) => {console.log(JSON.stringify(error))});
+
+        console.log("VIDEO LIST ",this.state.videoPacks);
         /*this.addMovie("Inception");
         this.addMovie("Split");
         this.addMovie("Primer");
