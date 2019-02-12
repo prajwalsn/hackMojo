@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import axios from 'axios';
 
 function Get(yourUrl){
     var Httpreq = new XMLHttpRequest();
@@ -31,13 +32,16 @@ class Container extends React.Component
             videoPacks : [],
             videos : [],
         }
-
-        this.addMovie("Inception");
+        
+        axios.get("/get_movie_names").then(data => this.setState({videoPacks : data.data})).catch(
+            (error) => {console.log(JSON.stringify(error))});
+        /*this.addMovie("Inception");
         this.addMovie("Split");
         this.addMovie("Primer");
         this.addMovie("Titanic");
         this.addMovie("Jaws");
         this.addMovie("The Dark Knight");
+        */
 
 
         this.state.videos.push("Psycho");
