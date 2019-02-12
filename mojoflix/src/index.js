@@ -43,16 +43,13 @@ class Container extends React.Component
                 .catch((error) => {console.log(JSON.stringify(error))});
 
         console.log("VIDEO LIST ",this.state.videoPacks);
-        /*this.addMovie("Inception");
-        this.addMovie("Split");
-        this.addMovie("Primer");
-        this.addMovie("Titanic");
-        this.addMovie("Jaws");
-        this.addMovie("The Dark Knight");
-        */
 
 
-        this.state.videos.push("Psycho");
+       var l = [ "Brazil" , "Vertigo" , "Rocky" , "GoodFellas" , "Shrek"]
+       var o = [ "Batman" , "Zootopia" , "Fargo" , "Ted" , "Predator" ]
+
+       this.state.videos.push(l);
+       this.state.videos.push(o);
     }
 
     createFunction( func , name )
@@ -89,8 +86,18 @@ class Container extends React.Component
         this.state.videoPacks.push(name);
     }
 
-    register()
+    getPack( elem )
     {
+        return(
+            <div className = "card-group" >
+                <div className = "card">
+                    <div className="card-body"> 
+                        <h5 className="card-title"> Pack </h5>
+                    </div>
+                </div>
+                { elem.map( card => this.getJSX2(card) ) }
+            </div>
+        );
     }
 
     render() {
@@ -107,7 +114,7 @@ class Container extends React.Component
                 </div>
                 <h1> Video Packs </h1>
                 <div className = "card-columns">
-                    {this.state.videos.map( card => this.getJSX(card))}
+                    {this.state.moviePacks.map( elem => this.getPack(elem))}
                 </div>
             </div>
 
