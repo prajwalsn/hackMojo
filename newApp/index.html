@@ -1,0 +1,143 @@
+{% extends 'layout.html' %}
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hack Mojo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.js"></script>
+  <!-- <script src="{{ url_for('static',filename='video_app.js') }}"></script> -->
+  
+  <style>
+    
+  </style>
+</head>
+<body ng-app="myapp"  ng-controller="ctrl">
+
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>HackMojo</h1>      
+    <p>Mission, Vission & Values</p>
+  </div>
+</div>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+      <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" ng-model="search">
+      </div>
+  </div>
+</nav>
+
+<div class="container">    
+  <div class="row">
+    <div class="col-sm-4"  ng-repeat="video in videos | filter: search">
+      <div class="panel panel-primary">
+        <div class="panel-heading">{a video.title a}</div>
+        <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+        <div class="panel-footer"><button ng-click="openpopup(video)" style="width:auto;">Show Details</button></div>
+      </div>
+    </div>
+</div>
+<br>
+
+<div class="container">    
+  <div class="row">
+    <div class="col-sm-4"  ng-repeat="pack in video_pack">
+      <div class="panel panel-primary">
+        <div class="panel-heading">{a pack.title a}</div>
+        <div class="panel-body">
+          <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+        </div>
+        <div class="panel-footer"><button ng-click="openpopup(pack)" style="width:auto;">Subscribe</button>
+          <button ng-click='redirect(pack.pack_id)''  style="width:auto;">View Pack</button>
+        </div>
+        
+      </div>
+    </div>
+</div>
+
+
+<!--Popup-->
+<div id="id01" class="modal">
+  
+  <form class="modal-content animate" action="/subscribe">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+    </div>
+
+    <div class="container">    
+        <div class="row">
+          <div class="col-sm-4" >
+            <div class="panel panel-primary">
+              <div class="panel-heading">{a popup.title a}</div>
+              <div class="panel-body">
+                <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+                <p>{a popup.price_day a}</p>
+              </div>
+              <div class="panel-footer"><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Subscribe</button></div>
+            </div>
+          </div>
+      </div>
+
+    
+  </form>
+</div>
+
+<script>
+    var app = angular.module("myapp",[]);
+
+    app.config(['$interpolateProvider', function($interpolateProvider) {
+        $interpolateProvider.startSymbol('{a');
+        $interpolateProvider.endSymbol('a}');
+      }]);
+
+    //controller for index page
+    app.controller("ctrl",['$scope','$http',function($scope,$http)
+    {
+            $scope.videos = []
+            $scope.video_pack = []
+            $scope.popup = null;
+            $http.get("/get_movie_names").then(function(response)
+            {
+              
+              $scope.videos = response['data']; 
+              console.log($scope.videos); 
+            },
+            function(err)
+            {
+                console.log(err);
+            });
+
+            $http.get("/get_video_pack").then(function(response)
+            {
+              
+              $scope.video_pack = response['data']; 
+              console.log($scope.video_pack); 
+            },
+            function(err)
+            {
+                console.log(err);
+            });
+
+            $scope.openpopup = function(popup)
+            {
+              document.getElementById('id01').style.display='block';
+              $scope.popup = popup;
+            }
+
+            $scope.redirect = function(pack_id)
+            {
+              console.log(pack_id)
+              window.location = "/get_videos?pack_id=" + pack_id;
+            }
+    }]);
+</script>
+</body>
+</html>
+{% endblock %}
