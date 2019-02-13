@@ -11,6 +11,6 @@ Jumla, a Video library which allows users to subscribe videos or video pack.
 
 1.   run creation.sql and insertion.sql in 
      like this `mysql -u yourusername -p yourpassword hackMojoB < filename.sql` 
-2.   cd into hackMojo folder and run `python app.py` in one terminal(Activate python env)
-3.   cd into mojoflix folder in other terminal and run `npm install` then `npm start`  
-4.   Enjoy developing :-)
+2.   cd into newApp folder and run `python app.py` in terminal(Activate python env)
+3.   Open 127.0.0.1:5000/ in browser and use credentials to login in (Ex: pro1@gmail.com , pro1)
+4.   Enjoy Jumla :-)
