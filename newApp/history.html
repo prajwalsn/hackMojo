@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+{% block body %}
+<h1> Subscription History</h1>
+{% for element in result %}
+<h3> Video Id : {{ element['video_id'] }}</h3>
+<h3> Video Price :  {{ element['price'] }}</h3>
+<h3>User_Id : {{ element['user_id'] }}</h3>
+<br>
+{% endfor %}
+{% endblock %}
